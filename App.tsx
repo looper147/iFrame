@@ -1,20 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-
+import { StyleSheet } from "react-native";
+import WebView from "react-native-webview";
+import Constants from "expo-constants";
+import ErrorBoundary from "./ErrorBoundary";
 export default function App() {
+  const handleNavigationStateChange = (navState: any) => {
+    console.log("New URL", navState.url); //access the ever changing url
+  };
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ErrorBoundary>
+      <WebView
+        style={styles.container}
+        source={{ uri: "https://expo.dev/" }}
+        onNavigationStateChange={handleNavigationStateChange}
+        javaScriptEnabled={true}
+        domStorageEnabled={true}
+      />
+    </ErrorBoundary>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: Constants.statusBarHeight,
   },
 });
